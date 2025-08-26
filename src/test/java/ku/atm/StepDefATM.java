@@ -12,6 +12,7 @@ public class StepDefATM {
     ATM atm;
     Bank bank;
     boolean validLogin;
+    NegativeAmountNotAllowedException depositError;
 
     @Before
     public void init() {
@@ -70,4 +71,21 @@ public class StepDefATM {
                      bank.getCustomer(id).getAccount().getBalance());
     }
 
+    @When("I deposit {double} to ATM")
+        public void  i_deposit_to_atm(double amount) throws NegativeAmountNotAllowedException {
+        try {
+            atm.deposit(amount);
+        } catch (NegativeAmountNotAllowedException e) {
+            depositError = e;
+        }
+        }
+    @Then("I cannot deposit to ATM")
+    public void cannot_deposit_to_atm() throws NegativeAmountNotAllowedException {
+        assertNotNull(depositError, "Expected NegativeAmountNotAllowedException but none was thrown");
+    }
 }
+
+
+
+
+

@@ -23,9 +23,12 @@ public class ATM {
             currentAccount.withdraw(value);
 	}
 
-	public void deposit(double value) {
-		if (currentAccount != null)
-            currentAccount.deposit(value);
+	public void deposit(double value) throws NegativeAmountNotAllowedException {
+		if (currentAccount == null) {
+			throw new IllegalStateException("Not logged in");
+		}
+		if (value < 0) throw new NegativeAmountNotAllowedException("Amount must be non-negative");
+		currentAccount.deposit(value);
 	}
 
 	public double getBalance() {

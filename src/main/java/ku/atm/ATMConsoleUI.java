@@ -2,8 +2,8 @@ package ku.atm;
 
 import java.util.Scanner;
 
-public class ATMConsoleUI {
-	public void start() {
+public class ATMConsoleUI  {
+	public void start() throws NegativeAmountNotAllowedException {
 		ATM theATM;
         Bank theBank = new Bank("KU Bank");
 		theBank.openAccount(new Customer(1, 111, 100));
@@ -28,7 +28,13 @@ public class ATMConsoleUI {
 				if (command.equalsIgnoreCase("A")) {
 					System.out.print("Amount: ");
 					double amount = in.nextDouble();
-					theATM.deposit(amount);
+					try{
+						theATM.deposit(amount);
+					}
+					catch(NegativeAmountNotAllowedException e){
+						System.out.println(e.getMessage());
+					}
+
 				} else if (command.equalsIgnoreCase("B")) {
 					System.out.print("Amount: ");
 					double amount = in.nextDouble();
